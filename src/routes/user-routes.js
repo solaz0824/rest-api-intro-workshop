@@ -1,11 +1,11 @@
 const Router = require("express").Router;
 
-const { authMiddleware } = require("../middlewares");
 const { userController } = require("../controllers");
 
 const userRouter = Router();
 
-userRouter.get("/", authMiddleware, userController.fetchUsers);
+userRouter.get("/:id", userController.fetchUserById);
+userRouter.get("/", userController.fetchUsers);
 
 module.exports = {
   userRouter: userRouter,
