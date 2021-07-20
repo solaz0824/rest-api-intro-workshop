@@ -616,8 +616,6 @@ You can run the `seedMovies()` function in the `index.js` file when starting the
 
 ### 2. Create the movie CRUD routes in the `/src/routes/movie-routes.js` file
 
-- **Test suite:** "books crud controllers"
-
 ## Author <!-- omit in toc -->
 
 [Joan Carrion](https://github.com/JCarri14)
