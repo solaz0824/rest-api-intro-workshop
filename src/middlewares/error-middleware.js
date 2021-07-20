@@ -1,6 +1,8 @@
-module.exports = (err, req, res, next) => {
-  console.log("Error Handler Middleware: ");
-  console.error(err);
+const { config } = require("../config");
+
+function errorMiddleware(err, req, res, next) {
+  config.logger.debug("Error Handler Middleware: ");
+  config.logger.error(err);
 
   if (req.headersSent) {
     // When you add a custom error handler,
@@ -13,4 +15,8 @@ module.exports = (err, req, res, next) => {
     data: null,
     error: "Something went wrong",
   });
+}
+
+module.exports = {
+  errorMiddleware: errorMiddleware,
 };
