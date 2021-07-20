@@ -1,6 +1,5 @@
 const db = require("../models");
 const { encryptString } = require("../utils/encrypt");
-const { generateResponse } = require("../utils/generateResponse");
 
 async function signUp(req, res, next) {
   const { email, password, firstname, lastname } = req.body;
@@ -15,14 +14,10 @@ async function signUp(req, res, next) {
       active: true,
     });
 
-    return res.status(200).send(
-      generateResponse({
-        data: {
-          id: _id,
-          email,
-        },
-      }),
-    );
+    return res.status(200).send({
+      id: _id,
+      email,
+    });
   } catch (err) {
     console.log(err);
     next(err);
@@ -31,21 +26,11 @@ async function signUp(req, res, next) {
 
 async function fetchUsers(req, res, next) {
   try {
-    const dbResponse = await db.User.find();
+    const users = await db.User.find();
 
-    if (dbResponse.error) {
-      res.status(400).send(
-        generateResponse({
-          error: dbResponse.error,
-        }),
-      );
-    }
-
-    res.status(200).send(
-      generateResponse({
-        data: dbResponse.data,
-      }),
-    );
+    res.status(200).send({
+      data: users,
+    });
   } catch (error) {
     next(error);
   }
@@ -54,25 +39,14 @@ async function fetchUsers(req, res, next) {
 async function fetchUserById(req, res, next) {
   const {
     params: { id: userId },
-    query: { fullFetch },
   } = req;
 
   try {
-    const dbResponse = await db.User.findById(userId);
+    const user = await db.User.findById(userId);
 
-    if (dbResponse.error) {
-      res.status(400).send(
-        generateResponse({
-          error: dbResponse.error,
-        }),
-      );
-    }
-
-    res.status(200).send(
-      generateResponse({
-        data: dbResponse.data,
-      }),
-    );
+    res.status(200).send({
+      data: user,
+    });
   } catch (error) {
     next(error);
   }
