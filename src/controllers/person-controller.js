@@ -26,9 +26,20 @@ const createPerson = async (req, res, next) => {
   }
 };
 
+//^ example URL localhost:6060/persons?page=2
+//^             localhost:6060/persons?page=1&size=4
 const getPersons = async (req, res, next) => {
   try {
-    const users = await db.Person.find().lean();
+    let { page, size } = req.query;
+    if (!page) {
+      page = 1;
+    }
+    if (!size) {
+      size = 10;
+    }
+    const limit = parseInt(size);
+    const skip = (page - 1) * size;
+    const users = await db.Person.find().limit(limit).skip(skip).lean();
     res.status(200).send({
       data: users,
     });

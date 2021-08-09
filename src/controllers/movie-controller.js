@@ -26,9 +26,25 @@ const createMovie = async (req, res, next) => {
     next(error);
   }
 };
+// &  example URL:   localhost:6060/movies?page=2&size=2
+// &                 localhost:6060/movies?page=2
 const getMovies = async (req, res, next) => {
   try {
-    const movies = await db.Movie.find().populate(["cast", "crew"]).lean();
+    let { page, size } = req.query;
+    if (!page) {
+      page = 1;
+    }
+    if (!size) {
+      size = 10;
+    }
+    const limit = parseInt(size);
+    const skip = (page - 1) * size;
+
+    const movies = await db.Movie.find()
+      .limit(limit)
+      .skip(skip)
+      .populate(["cast", "crew"])
+      .lean();
     res.status(200).send({
       data: movies,
     });
