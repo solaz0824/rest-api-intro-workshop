@@ -1,14 +1,30 @@
 const db = require("../models");
-const { getSeedMovies } = require("./seed-data");
+const { seedUsers, seedMovies, seedPersons } = require("./seedData");
 
-async function seedMovies() {
-  const movies = [...getSeedMovies()].map((movie) => ({
-    ...movie,
-  }));
-  // console.log(movies);
+const seedMoviesData = async () => {
+  const movies = await seedMovies();
+  console.log(movies);
   await db.Movie.deleteMany({});
   await db.Movie.create([...movies]);
-}
+};
+
+const seedUsersData = async () => {
+  const users = await seedUsers();
+  await db.User.deleteMany({});
+  await db.User.create([...users]);
+};
+
+const seedPersonsData = async () => {
+  const persons = [...seedPersons()].map((person) => ({
+    ...person,
+  }));
+
+  await db.Person.deleteMany({});
+  await db.Person.create([...persons]);
+};
+
 module.exports = {
-  seedMovies: seedMovies,
+  seedMoviesData,
+  seedUsersData,
+  seedPersonsData,
 };

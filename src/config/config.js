@@ -8,9 +8,10 @@ const {
   MONGO_DB_URL_PRODUCTION,
   MONGO_DB_URL_DEVELOPMENT,
   MONGO_DB_URL_TEST,
-  PORT = 4000,
+  PORT = 6060,
   ENCRYPTION_SALT_DEVELOPMENT,
   ENCRYPTION_SALT_PRODUCTION,
+  ACCESS_TOKEN_SECRET,
 } = process.env;
 
 const ENV = NODE_ENV || "development";
@@ -20,7 +21,7 @@ logger.enableAll();
 const CONFIG = {
   production: {
     app: {
-      PORT: PORT || 4000,
+      PORT: PORT || 6060,
     },
     logger: {
       warn: logger.warn,
@@ -38,7 +39,7 @@ const CONFIG = {
   },
   development: {
     app: {
-      PORT: PORT || 4000,
+      PORT: PORT || 6060,
     },
     logger: {
       warn: logger.warn,
@@ -56,7 +57,7 @@ const CONFIG = {
   },
   test: {
     app: {
-      PORT: PORT || 4000,
+      PORT: PORT || 6060,
     },
     logger: {
       warn: logger.warn,

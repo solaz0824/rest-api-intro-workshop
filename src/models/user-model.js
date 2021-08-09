@@ -4,21 +4,19 @@ const { isEmail } = require("validator");
 
 const UserSchema = Schema(
   {
-    nickName: {
+    name: {
       type: String,
-      unique: true,
-    },
-    firstName: {
-      type: String,
+      required: [true, "Name is required"],
       trim: true,
     },
     lastName: {
       type: String,
+      required: [true, "Last name is required"],
       trim: true,
     },
     email: {
       type: String,
-      required: [true, "The email is required"],
+      required: [true, "Email is required"],
       trim: true,
       unique: true,
       validate: {
@@ -29,10 +27,7 @@ const UserSchema = Schema(
     password: {
       type: String,
       unique: true,
-    },
-    active: {
-      type: Boolean,
-      default: false,
+      required: [true, "Password is required"],
     },
   },
 

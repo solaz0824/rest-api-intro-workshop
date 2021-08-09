@@ -1,7 +1,7 @@
 {
-  "name": "rest-api-intro-workshop",
+  "name": "node.js-rest-api",
   "version": "1.0.0",
-  "description": "Assembler School: REST API Intro Workshop",
+  "description": "node.js rest API",
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon ./src/index.js",
@@ -10,19 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/assembler-school/rest-api-intro-workshop.git"
+    "url": "git+https://github.com/solaz0824/Node.js-Rest-API.git"
   },
-  "keywords": [
-    "nodejs",
-    "mongodb",
-    "mongoose"
-  ],
-  "author": "Joan Carrion <j.carrion@assemblerschool.com>",
-  "license": "MIT",
+  "author": "Eunyoung Kim",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/assembler-school/rest-api-intro-workshop/issues"
+    "url": "https://github.com/solaz0824/Node.js-Rest-API/issues"
   },
-  "homepage": "https://github.com/assembler-school/rest-api-intro-workshop#readme",
+  "homepage": "https://github.com/solaz0824/Node.js-Rest-API#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",

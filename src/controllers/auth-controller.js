@@ -1,5 +1,6 @@
 const db = require("../models");
 const { compareEncrypted } = require("../utils/encrypt");
+const { createToken } = require("../service/auth/create-token");
 
 async function authenticate(req, res, next) {
   const { email, password: inputPassword } = req.body;
@@ -24,21 +25,21 @@ async function authenticate(req, res, next) {
       });
 
       if (isUser) {
-        return res.status(200).send({
-          data: {
-            id: userResponse._id,
-          },
-        });
+        const accessToken = createToken({ email: email });
+        if (accessToken) {
+          return res.status(200).send({
+            data: {
+              accessToken,
+              id: userResponse._id,
+            },
+          });
+        }
       } else {
-        return res.status(401).send(
-          generateResponse({
-            error: "Login error, user and/or password not correct!",
-          }),
-        );
+        return res.status(401).send(error);
       }
     }
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     next(error);
   }
 }

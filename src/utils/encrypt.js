@@ -1,12 +1,6 @@
 const bcrypt = require("bcrypt");
 const { config } = require("../config");
 
-/**
- * Encrypts the string requested
- *
- * @param {String} data orm promise
- * @returns object encrypted data
- */
 async function encryptString(data) {
   const salt = await bcrypt.genSalt(Number(config.encrypt.salt));
   const encryptedData = await bcrypt.hash(data, salt);

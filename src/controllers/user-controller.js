@@ -1,139 +1,99 @@
 const db = require("../models");
 const { encryptString } = require("../utils/encrypt");
 
-async function signUp(req, res, next) {
-  const { email, password, firstName, lastName } = req.body;
+const createUser = async (req, res, next) => {
+  const { name, lastName, email, password } = req.body;
 
   try {
     const encryptedPassword = await encryptString(password);
-    const { _id } = await db.User.create({
-      email: email,
-      password: encryptedPassword,
-      firstName: firstName,
-      lastName: lastName,
-      active: true,
-    });
-
-    return res.status(200).send({
-      id: _id,
-      email,
-    });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-}
-
-async function createUser(req, res, next) {
-  const { firstName, lastName, email, password } = req.body;
-
-  try {
     const user = await db.User.create({
-      firstName,
+      name,
       lastName,
       email,
-      password,
+      password: encryptedPassword,
     });
 
     res.status(200).send({
       data: {
-        _id: user._id,
-        firstName: user.firstName,
+        name: user.name,
         lastName: user.lastName,
         email: user.email,
+        password: user.password,
       },
     });
   } catch (error) {
     next(error);
   }
-}
-
-async function fetchUsers(req, res, next) {
+};
+const getUsers = async (req, res, next) => {
   try {
     const users = await db.User.find().lean();
-
     res.status(200).send({
       data: users,
     });
   } catch (error) {
     next(error);
   }
-}
+};
 
-async function fetchUserById(req, res, next) {
-  const {
-    params: { id: userId },
-  } = req;
-
+const getUserById = async (req, res, next) => {
+  const { id: userId } = req.params;
   try {
-    const user = await db.User.findById(userId).lean();
-
+    const user = await db.User.find({ _id: userId }).lean();
     res.status(200).send({
       data: user,
     });
   } catch (error) {
     next(error);
   }
-}
-
-async function updateUser(req, res, next) {
+};
+const updateUser = async (req, res, next) => {
   const { id: userId } = req.params;
-  const { firstName, lastName } = req.body;
+  const { name, lastName, email, password } = req.body;
+  const encryptedPassword = await encryptString(password);
 
   try {
-    const updatedUser = await db.User.findOneAndUpdate(
-      {
-        _id: userId,
-      },
+    const updatedUser = await db.User.findByIdAndUpdate(
+      { _id: userId },
       {
         $set: {
-          firstName: firstName,
-          lastName: lastName,
+          name,
+          lastName,
+          email,
+          password: encryptedPassword,
         },
       },
-      {
-        new: true,
-      },
-    ).select({
-      firstName: 1,
-      lastName: 1,
-    });
-
+      { new: true },
+    );
     res.status(200).send({
       data: updatedUser,
     });
   } catch (error) {
     next(error);
   }
-}
+};
 
-async function deleteUser(req, res, next) {
+const deleteUser = async (req, res, next) => {
   const { id: userId } = req.params;
-
   try {
-    const result = await db.User.deleteOne({
-      _id: userId,
-    }).lean();
-
+    const result = await db.User.deleteOne({ _id: userId }).lean();
     if (result.ok === 1 && result.deletedCount === 1) {
       res.status(200).send({
-        data: "User removed",
+        data: "A user successfully deleted",
       });
     } else {
       res.status(500).send({
-        data: "User not removed",
+        data: "Failed to delete a user",
       });
     }
   } catch (error) {
     next(error);
   }
-}
-
+};
 module.exports = {
-  signUp: signUp,
-  createUser: createUser,
-  fetchUsers: fetchUsers,
-  fetchUserById: fetchUserById,
-  updateUser: updateUser,
-  deleteUser: deleteUser,
+  createUser,
+  getUsers,
+  getUserById,
+  updateUser,
+  deleteUser,
 };
