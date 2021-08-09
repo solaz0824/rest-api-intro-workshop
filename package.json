@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/solaz0824/Node.js-Rest-API.git"
+    "url": "git+https://github.com/solaz0824/rest-api-intro-workshop.git"
   },
   "author": "Eunyoung Kim",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/solaz0824/Node.js-Rest-API/issues"
+    "url": "https://github.com/solaz0824/rest-api-intro-workshop/issues"
   },
-  "homepage": "https://github.com/solaz0824/Node.js-Rest-API#readme",
+  "homepage": "https://github.com/solaz0824/rest-api-intro-workshop#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
