@@ -24,6 +24,30 @@ async function signUp(req, res, next) {
   }
 }
 
+async function createUser(req, res, next) {
+  const { firstName, lastName, email, password } = req.body;
+
+  try {
+    const user = await db.User.create({
+      firstName,
+      lastName,
+      email,
+      password,
+    });
+
+    res.status(200).send({
+      data: {
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function fetchUsers(req, res, next) {
   try {
     const users = await db.User.find().lean();
@@ -107,6 +131,7 @@ async function deleteUser(req, res, next) {
 
 module.exports = {
   signUp: signUp,
+  createUser: createUser,
   fetchUsers: fetchUsers,
   fetchUserById: fetchUserById,
   updateUser: updateUser,
