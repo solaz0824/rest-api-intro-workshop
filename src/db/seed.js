@@ -3,7 +3,6 @@ const { seedUsers, seedMovies, seedPersons } = require("./seedData");
 
 const seedMoviesData = async () => {
   const movies = await seedMovies();
-  console.log(movies);
   await db.Movie.deleteMany({});
   await db.Movie.create([...movies]);
 };

@@ -58,7 +58,7 @@ MONGO_DB_URL_PRODUCTION=mongodb://localhost/rest-api-pill
 MONGO_DB_URL_DEVELOPMENT=mongodb://localhost/rest-api-pill
 MONGO_DB_URL_TEST=mongodb://localhost/rest-api-pill
 ACCESS_TOKEN_SECRET=myaccesstokensecretthatshouldnotbeshare
-PORT= YOUR PORT NUMBER HERE (example->  3000)
+PORT= YOUR PORT NUMBER HERE (example->  3000 ** it has to match with the port number in config.js file)
 ENCRYPTION_SALT_DEVELOPMENT=10
 ENCRYPTION_SALT_PRODUCTION=10
 
@@ -74,7 +74,19 @@ In your terminal, enter this line below
 $ nodemon
 ```
 
-now, you have seed data already made.
+or
+
+```bash
+$ npm run dev
+```
+
+Now, you have seed data already made. <br><br>
+
+Also, you can check your data by using this line below in another terminal
+
+```bash
+$ mongo
+```
 
 ### 2. Postman
 
