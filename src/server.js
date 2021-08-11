@@ -3,7 +3,6 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const { json } = require("body-parser");
 const cors = require("cors");
-const config = require("./config");
 
 const {
   movieRouter,

@@ -1,10 +1,4 @@
-const {
-  admin,
-  auth,
-  getAuthToken,
-  verifyAuthToken,
-} = require("../services/firebase");
-const db = require("../models");
+const { getAuthToken, verifyAuthToken } = require("../services/firebase");
 
 async function authMiddleware(req, res, next) {
   try {

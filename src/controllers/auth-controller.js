@@ -8,8 +8,9 @@ async function authenticate(req, res, next) {
     });
 
     if (!userResponse) {
-      return res.status(400).send({
-        error: "Error, invalid credentials!",
+      await db.User.create({
+        firebase_id: uid,
+        email: email,
       });
     }
 
@@ -20,10 +21,6 @@ async function authenticate(req, res, next) {
         },
       });
     }
-    await db.User.create({
-      firebase_id: uid,
-      email: email,
-    });
 
     res.status(201).send({
       data: {
