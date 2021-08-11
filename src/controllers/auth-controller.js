@@ -1,10 +1,7 @@
 const db = require("../models");
-const { compareEncrypted } = require("../utils/encrypt");
-const { createToken } = require("../service/auth/create-token");
 
 async function authenticate(req, res, next) {
-  const { email, password: inputPassword } = req.body;
-
+  const { uid, email } = req.user;
   try {
     const userResponse = await db.User.findOne({
       email: email,
@@ -17,33 +14,36 @@ async function authenticate(req, res, next) {
     }
 
     if (userResponse) {
-      const { password } = userResponse;
-
-      const isUser = await compareEncrypted({
-        plainData: inputPassword,
-        encryptedData: password,
+      return res.status(200).send({
+        data: {
+          email: email,
+        },
       });
-
-      if (isUser) {
-        const accessToken = createToken({ email: email });
-        if (accessToken) {
-          return res.status(200).send({
-            data: {
-              accessToken,
-              id: userResponse._id,
-            },
-          });
-        }
-      } else {
-        return res.status(401).send(error);
-      }
     }
+    await db.User.create({
+      firebase_id: uid,
+      email: email,
+    });
+
+    res.status(201).send({
+      data: {
+        email: email,
+      },
+    });
   } catch (error) {
     console.log(error);
     next(error);
   }
 }
 
+async function signOut(req, res) {
+  req.signOut();
+
+  res.status(200).send({
+    data: "OK",
+  });
+}
 module.exports = {
-  authenticate: authenticate,
+  authenticate,
+  signOut,
 };

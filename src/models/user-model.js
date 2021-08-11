@@ -4,14 +4,15 @@ const { isEmail } = require("validator");
 
 const UserSchema = Schema(
   {
+    _id: String,
     name: {
       type: String,
-      required: [true, "Name is required"],
+      // required: [true, "Name is required"],
       trim: true,
     },
     lastName: {
       type: String,
-      required: [true, "Last name is required"],
+      // required: [true, "Last name is required"],
       trim: true,
     },
     email: {
@@ -24,10 +25,14 @@ const UserSchema = Schema(
         message: (props) => `The email ${props.value} is not valid`,
       },
     },
-    password: {
+    // password: {
+    //   type: String,
+    //   unique: true,
+    //   required: [true, "Password is required"],
+    // },
+    firebase_id: {
       type: String,
       unique: true,
-      required: [true, "Password is required"],
     },
   },
 

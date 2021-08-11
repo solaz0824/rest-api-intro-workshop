@@ -1,29 +1,31 @@
-const { verifyToken } = require("../service/auth");
+const {
+  admin,
+  auth,
+  getAuthToken,
+  verifyAuthToken,
+} = require("../services/firebase");
 const db = require("../models");
 
-const authMiddleware = async (req, res, next) => {
+async function authMiddleware(req, res, next) {
   try {
-    const bearerHeader = req.headers["authorization"];
+    const bearerToken = await getAuthToken(req.headers);
+    const userClaims = await verifyAuthToken(bearerToken);
 
-    if (typeof bearerHeader !== "undefined") {
-      const bearer = bearerHeader.split(" ");
-      const bearerToken = bearer[1];
-      req.token = bearerToken;
-      const userInputs = await verifyToken(bearerHeader);
-      const user = await db.User.findOne({
-        email: userInputs.email,
-      });
-      req.user = {
-        email: userInputs.email,
-        id: user._id,
-      };
-      next();
-    }
+    const { email, uid } = userClaims;
+    req.user = {
+      email: email,
+      uid: uid,
+    };
+
+    next();
   } catch (error) {
-    next(error);
+    res.status(401).send({
+      data: null,
+      error: error,
+    });
   }
-};
+}
 
 module.exports = {
-  authMiddleware,
+  authMiddleware: authMiddleware,
 };
